@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest>
+    <meta>
+        <name>ContractApp</name>
+        <label>Contract App</label>
+    </meta>
+    <permissions>
+        <read>product</read>
+        <update>product</update>
+    </permissions>
+</manifest>

@@ -1,0 +1,13 @@
+{
+  "name": "ContractTheme",
+  "config": {
+    "fields": {
+      "contract-color": {
+        "label": {
+          "en-GB": "Contract color"
+        },
+        "value": "#ff0000"
+      }
+    }
+  }
+}

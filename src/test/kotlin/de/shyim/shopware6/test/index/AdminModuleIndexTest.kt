@@ -18,7 +18,14 @@ class AdminModuleIndexTest : BasePlatformTestCase() {
     }
 
     fun testModuleAreRegistered() {
+        // getAllKeys can contain stale keys from other tests sharing the index storage,
+        // so only count keys with values in this project
         val keys = FileBasedIndex.getInstance().getAllKeys(AdminModuleIndex.key, project)
+            .filter {
+                FileBasedIndex.getInstance()
+                    .getValues(AdminModuleIndex.key, it, GlobalSearchScope.allScope(project))
+                    .isNotEmpty()
+            }
         assertSame(1, keys.size)
 
         val values = FileBasedIndex.getInstance()

@@ -111,6 +111,11 @@ jobs:
       - name: Run Tests
         run: ./gradlew check
 
+      # Run the plugin contract chain (static index manifest check, tests,
+      # randomized second pass of index tests, plugin build, ZIP contract check)
+      - name: Verify Plugin Contract
+        run: ./gradlew verifyPluginContract
+
       # Collect Tests Result of failed tests
       - name: Collect Tests Result
         if: ${{ failure() }}

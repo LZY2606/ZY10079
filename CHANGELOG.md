@@ -4,6 +4,9 @@
 
 ## Unreleased
 
+- Added `./gradlew verifyPluginContract`, a single entry point that statically checks index/manifest/fixture coverage, runs the unit tests, re-runs the index tests in randomized order, builds the plugin and verifies the distribution ZIP contents with a stable SHA-256 manifest. Every `FileBasedIndex` now has contract fixtures with a serialization round-trip and version snapshots (see `doc/index-versioning.md`)
+- Fixed a crash of the bundle index (`ShopwareBundleIndex`) when a bundle class has no `composer.json` in any parent directory
+
 ## 0.1.1 - 2026-08-21
 
 - Restored the inheritance gutter markers on Twig blocks that were lost with the reworked Twig template handling in `0.1.0`: a block now shows an "overrides" icon when it overrides a block of the `sw_extends` chain and an "overridden" icon when extending templates override it, both navigating to the related blocks. The markers are provided by the plugin itself and no longer require the Symfony plugin. Fixes #307

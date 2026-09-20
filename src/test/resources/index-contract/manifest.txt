@@ -1,0 +1,25 @@
+# Index contract manifest.
+# Every FileBasedIndex registered in plugin.xml and every index class in
+# src/main/kotlin/de/shyim/shopware6/index must be listed here exactly once.
+# Each entry requires a non-empty fixture directory src/test/testData/contract/<SimpleClassName>/
+# and is exercised by de.shyim.shopware6.test.contract.IndexContractTest.
+# Verified by the verifyIndexContractManifest Gradle task - differences in either
+# direction fail the build.
+de.shyim.shopware6.index.AdminComponentIndex
+de.shyim.shopware6.index.AdminComponentOverrideIndex
+de.shyim.shopware6.index.AdminMixinIndex
+de.shyim.shopware6.index.AdminModuleIndex
+de.shyim.shopware6.index.AdminSnippetIndex
+de.shyim.shopware6.index.EntityDefinitionIndex
+de.shyim.shopware6.index.FeatureFlagIndex
+de.shyim.shopware6.index.FrontendSnippetIndex
+de.shyim.shopware6.index.ScriptHookFacadeIndex
+de.shyim.shopware6.index.ScriptHookIndex
+de.shyim.shopware6.index.ShopwareAppIndex
+de.shyim.shopware6.index.ShopwareBundleIndex
+de.shyim.shopware6.index.ShopwareTemplateExtendsIndex
+de.shyim.shopware6.index.ShopwareTemplateIndex
+de.shyim.shopware6.index.SystemConfigIndex
+de.shyim.shopware6.index.ThemeConfigIndex
+de.shyim.shopware6.index.TwigBlockDeprecationIndex
+de.shyim.shopware6.index.TwigBlockHashIndex

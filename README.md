@@ -67,6 +67,42 @@ For local publishing, `./gradlew publishPlugin` infers the same channels from `p
 Override them with `-PpluginChannels=eap` or `-PpluginChannels=default,eap` if needed.
 See [JetBrains' custom release channel documentation](https://plugins.jetbrains.com/docs/marketplace/custom-release-channels.html).
 
+## Plugin contract verification
+
+`./gradlew verifyPluginContract` runs the full contract chain in one entry point:
+
+1. `verifyIndexContractManifest` — static check that every `fileBasedIndex` registered in `plugin.xml`
+   and every index class in `src/main/kotlin/de/shyim/shopware6/index` is listed in
+   `src/test/resources/index-contract/manifest.txt` (differences in either direction fail the build),
+   that each manifest entry has a non-empty fixture directory under `src/test/testData/contract/`, and
+   that every `getTestDataPath()` referenced from the test sources exists. Missing testData is never
+   skipped silently.
+2. `test` — unit tests, including the index contract test (fixture collection, externalizer
+   serialization round-trip, version/byte snapshots; see [doc/index-versioning.md](doc/index-versioning.md))
+   and the order isolation test (same-named Twig block, admin component and snippet loaded into two
+   fixture projects in opposite order; scoped queries must only see their own project).
+3. `indexTestsRandomized` — a second pass over all index tests with shuffled class and method order
+   to surface order-dependent pollution of project-level index caches. The used seed is printed to the
+   test output; reproduce a specific order with `./gradlew indexTestsRandomized -PindexTestSeed=<seed>`.
+4. `buildPlugin` + `verifyPluginZipContract` — checks the distribution ZIP for `plugin.xml` with the
+   declared plugin id and version, the plugin icon, file and live templates, and the absence of caches,
+   sandbox state, logs or test data. A stable, entry-sorted SHA-256 manifest of the archive content is
+   written to `build/reports/pluginContract/plugin-zip-manifest.sha256`.
+
+The entry point works offline once dependencies are resolved (`./gradlew verifyPluginContract --offline`
+after a first online run). Cleanup is confined to the `build/` directory; test fixtures under
+`src/test/testData` and user directories are never touched. When an index version or its serialized
+form changes intentionally, regenerate the snapshots with
+`./gradlew test -Pindex.contract.updateSnapshots=true` and document the change in
+[doc/index-versioning.md](doc/index-versioning.md).
+
+On CI the same entry point runs in the `test` job of `.github/workflows/build.yml`:
+
+```yaml
+- name: Verify plugin contract
+  run: ./gradlew verifyPluginContract
+```
+
 ## Showcase
 
 ### Components

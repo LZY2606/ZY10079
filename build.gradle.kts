@@ -167,3 +167,80 @@ tasks {
         }
     }
 }
+
+// --- Plugin contract verification -------------------------------------------------
+
+val verifyIndexContractManifest = tasks.register<contract.VerifyIndexContractManifestTask>("verifyIndexContractManifest") {
+    group = "verification"
+    description = "Checks that every registered FileBasedIndex has contract coverage, fixtures and testData."
+
+    pluginXml.set(layout.projectDirectory.file("src/main/resources/META-INF/plugin.xml"))
+    indexSourceDir.set(layout.projectDirectory.dir("src/main/kotlin/de/shyim/shopware6/index"))
+    manifestFile.set(layout.projectDirectory.file("src/test/resources/index-contract/manifest.txt"))
+    testDataRoot.set(layout.projectDirectory.dir("src/test/testData"))
+    testSources.from(fileTree(layout.projectDirectory.dir("src/test/kotlin")) { include("**/*.kt") })
+    projectDirectory.set(layout.projectDirectory)
+}
+
+// A second, fully wired IDE test task running the index test suite in randomized order.
+// Registered through intellijPlatformTesting so it gets the same IDE classpath, sandbox
+// and JVM setup as the standard test task.
+intellijPlatformTesting {
+    testIde {
+        register("indexTestsRandomized") {
+            testFrameworks(TestFrameworkType.Platform)
+
+            task {
+                group = "verification"
+                description = "Second pass over the index tests with randomized test order."
+
+                include("de/shyim/shopware6/test/contract/RandomizedIndexOrderSuite.class")
+
+                // TestIdeTask wires the IDE test classpath but not the test resources.
+                classpath += files(sourceSets["test"].output.resourcesDir)
+
+                // A verification pass must always run; never skip it as up-to-date.
+                outputs.upToDateWhen { false }
+
+                mustRunAfter(tasks.named("test"))
+
+                systemProperty(
+                    "indexTestSeed",
+                    providers.gradleProperty("indexTestSeed").orElse("").get(),
+                )
+                systemProperty(
+                    "index.contract.updateSnapshots",
+                    providers.gradleProperty("index.contract.updateSnapshots").orElse("false").get(),
+                )
+            }
+        }
+    }
+}
+
+val verifyPluginZipContract = tasks.register<contract.VerifyPluginZipContractTask>("verifyPluginZipContract") {
+    group = "verification"
+    description = "Verifies the built plugin ZIP contents and writes a stable SHA-256 manifest."
+
+    pluginZip.set(tasks.named<Zip>("buildPlugin").flatMap { it.archiveFile })
+    expectedPluginId.set("de.shyim.shopware6")
+    expectedVersion.set(providers.gradleProperty("pluginVersion"))
+    shaManifest.set(layout.buildDirectory.file("reports/pluginContract/plugin-zip-manifest.sha256"))
+}
+
+tasks.named<Test>("test") {
+    mustRunAfter(verifyIndexContractManifest)
+    // The randomized second pass runs exclusively in indexTestsRandomized.
+    exclude("de/shyim/shopware6/test/contract/RandomizedIndexOrderSuite*")
+    systemProperty(
+        "index.contract.updateSnapshots",
+        providers.gradleProperty("index.contract.updateSnapshots").orElse("false").get(),
+    )
+}
+
+tasks.register("verifyPluginContract") {
+    group = "verification"
+    description = "Runs static contract checks, unit tests, a randomized second pass of index tests, " +
+        "the plugin build and the plugin ZIP contract check. Works offline with resolved dependencies."
+
+    dependsOn(verifyIndexContractManifest, tasks.named("test"), tasks.named("indexTestsRandomized"), verifyPluginZipContract)
+}

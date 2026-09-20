@@ -71,7 +71,11 @@ class ShopwareBundleIndex : FileBasedIndexExtension<String, ShopwareBundle>() {
             return FilenameUtils.separatorsToUnix(bundleDir.pathString)
         }
 
-        return getRootFolder(bundleDir.parent)
+        // Stop at the filesystem root instead of crashing the index update with an NPE
+        // when no composer.json exists above the bundle (e.g. unpacked plugin sources).
+        val parent = bundleDir.parent ?: return FilenameUtils.separatorsToUnix(bundleDir.pathString)
+
+        return getRootFolder(parent)
     }
 
     override fun getKeyDescriptor(): KeyDescriptor<String> {
