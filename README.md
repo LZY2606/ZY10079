@@ -67,6 +67,51 @@ For local publishing, `./gradlew publishPlugin` infers the same channels from `p
 Override them with `-PpluginChannels=eap` or `-PpluginChannels=default,eap` if needed.
 See [JetBrains' custom release channel documentation](https://plugins.jetbrains.com/docs/marketplace/custom-release-channels.html).
 
+## Verifying the plugin contract
+
+`./gradlew verifyPluginContract` runs the complete contract gate used in CI. It works offline once the
+Gradle/IntelliJ Platform dependencies have been resolved (use `--offline`):
+
+1. `contractStaticCheck` - compares the `fileBasedIndex` registrations in `plugin.xml` with the
+   `FileBasedIndexExtension` classes in the sources and with the test manifest
+   `src/test/testData/index-contract/index-manifest.json`; an extra, missing or unregistered index
+   fails the build, as do missing or empty `testData` fixtures.
+2. `verifyPluginProjectConfiguration` - the IntelliJ Platform project configuration check.
+3. `test` - the regular unit test suite.
+4. `testIndexShuffled` - a second pass over every index test in a random, seeded order in a fresh
+   test sandbox, including the externalizer round-trip contract and the two-project order isolation
+   test for same-named Twig blocks, admin components and snippets.
+5. `buildPlugin` + `verifyPluginZipContents` - builds the distribution and checks the ZIP for
+   `plugin.xml` (id/version), icons, templates and forbidden cache/test entries, then writes a stable
+   sorted SHA-256 manifest to `build/reports/pluginContract/plugin-zip-manifest.sha256`.
+
+Commands:
+
+```bash
+# Install/compile after checkout (resolves dependencies on first run)
+./gradlew classes
+
+# Full contract verification (offline, uses only resolved dependencies)
+./gradlew verifyPluginContract --offline
+
+# Reproduce a failing random order with the seed printed by the shuffled pass
+./gradlew testIndexShuffled --offline -Pshopware.test.seed=<seed>
+```
+
+Every registered index has at least one collected fixture and an externalizer serialization
+round-trip. When an index version or the externalizer/dict byte fingerprint changes, update the
+snapshot deliberately and explain compatibility in the manifest entry:
+
+```bash
+./gradlew test --tests "de.shyim.shopware6.test.contract.IndexContractTest" \
+    -Pshopware.contract.updateSnapshot=true
+```
+
+Then set a non-empty `compatibilityNote` for the changed entry (or bump the index version) and
+commit `index-manifest.json` together with the code change. Test/sandbox cleanup is restricted to
+`build/` (in particular `build/idea-sandbox`); source fixtures and user directories are never
+deleted.
+
 ## Showcase
 
 ### Components

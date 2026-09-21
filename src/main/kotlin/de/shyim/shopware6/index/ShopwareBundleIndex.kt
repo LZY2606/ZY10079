@@ -9,11 +9,7 @@ import com.jetbrains.php.lang.PhpFileType
 import com.jetbrains.php.lang.psi.elements.PhpClass
 import de.shyim.shopware6.index.dict.ShopwareBundle
 import de.shyim.shopware6.index.externalizer.ObjectStreamDataExternalizer
-import org.apache.commons.io.FilenameUtils
-import java.nio.file.Files
-import java.nio.file.Path
-import java.nio.file.Paths
-import kotlin.io.path.pathString
+import com.intellij.openapi.vfs.VirtualFile
 
 class ShopwareBundleIndex : FileBasedIndexExtension<String, ShopwareBundle>() {
     private val _externalizer = ObjectStreamDataExternalizer<ShopwareBundle>()
@@ -45,9 +41,8 @@ class ShopwareBundleIndex : FileBasedIndexExtension<String, ShopwareBundle>() {
                             return
                         }
 
-                        val bundleDir = Paths.get(inputData.file.path).parent
-                        val expectedStorefrontViewFolder =
-                            FilenameUtils.separatorsToUnix("${bundleDir}/Resources/views/")
+                        val bundleDir = inputData.file.parent
+                        val expectedStorefrontViewFolder = "${bundleDir.path}/Resources/views/"
                         bundles["all"] =
                             ShopwareBundle(
                                 element.name,
@@ -66,9 +61,13 @@ class ShopwareBundleIndex : FileBasedIndexExtension<String, ShopwareBundle>() {
         }
     }
 
-    private fun getRootFolder(bundleDir: Path): String {
-        if (Files.exists(Paths.get("${bundleDir}/composer.json"))) {
-            return FilenameUtils.separatorsToUnix(bundleDir.pathString)
+    private fun getRootFolder(bundleDir: VirtualFile?): String {
+        if (bundleDir == null) {
+            return ""
+        }
+
+        if (bundleDir.findChild("composer.json") != null) {
+            return bundleDir.path
         }
 
         return getRootFolder(bundleDir.parent)

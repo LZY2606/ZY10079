@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest>
+    <meta>
+        <name>ContractApp</name>
+        <label>Contract App</label>
+        <version>1.0.0</version>
+        <author>Contract</author>
+    </meta>
+    <permissions>
+        <read>product</read>
+    </permissions>
+</manifest>

@@ -1,0 +1,6 @@
+feature:
+    flags:
+        - name: FEATURE_CONTRACT
+          default: true
+          major: false
+          description: "Contract fixture flag"

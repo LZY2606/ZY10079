@@ -1,0 +1,149 @@
+{
+    "schemaVersion": 1,
+    "indexes": [
+        {
+            "className": "de.shyim.shopware6.index.AdminComponentIndex",
+            "id": "de.shyim.shopware6.admin.component",
+            "indexVersion": 3,
+            "externalizerSha256": "1e22ceadc981193df589ddf3edabef4382bdf494f9c36093dcf99446797a7bbe",
+            "fixtures": ["index/AdminComponentIndex/button.js", "index/AdminComponentIndex/extended-button.js"],
+            "compatibilityNote": ""
+        },
+        {
+            "className": "de.shyim.shopware6.index.AdminComponentOverrideIndex",
+            "id": "de.shyim.shopware6.admin.component_override",
+            "indexVersion": 2,
+            "externalizerSha256": "63ee226c9707f658d29b656af5ac2fad1ac7c1fc4c1d25c11354119e061b735a",
+            "fixtures": ["index/AdminComponentOverrideIndex/button.js"],
+            "compatibilityNote": ""
+        },
+        {
+            "className": "de.shyim.shopware6.index.AdminMixinIndex",
+            "id": "de.shyim.shopware6.admin.mixin",
+            "indexVersion": 2,
+            "externalizerSha256": "092568004745e6e07b60d0aa4b8ff889707ecc9ad8fa3e64fec626fe626b941a",
+            "fixtures": ["index/AdminMixinIndex/mixin.js"],
+            "compatibilityNote": ""
+        },
+        {
+            "className": "de.shyim.shopware6.index.AdminModuleIndex",
+            "id": "de.shyim.shopware6.admin.module",
+            "indexVersion": 3,
+            "externalizerSha256": "c57ecacf39a9149595bfa787326bcd89bccaeebb6b967b57ea9d7dc5d3c40370",
+            "fixtures": ["index/AdminModuleIndex/module/sw-product/index.js"],
+            "compatibilityNote": ""
+        },
+        {
+            "className": "de.shyim.shopware6.index.AdminSnippetIndex",
+            "id": "de.shyim.shopware6.admin.snippet",
+            "indexVersion": 3,
+            "externalizerSha256": "a19b03a442c7022a67856783326abf26d3b3cbe33438f6a86ab551259717715b",
+            "fixtures": ["index/AdminSnippetIndex/snippet/en-GB.json"],
+            "compatibilityNote": ""
+        },
+        {
+            "className": "de.shyim.shopware6.index.EntityDefinitionIndex",
+            "id": "de.shyim.shopware6.backend.entity-definition",
+            "indexVersion": 3,
+            "externalizerSha256": "197c4ec922cdc89557ffe8cd21a1be1e4a8627c58fd86756ef235c33772f0da3",
+            "fixtures": ["index/EntityDefinitionIndexTest/AppShippingMethodDefinition.php"],
+            "compatibilityNote": ""
+        },
+        {
+            "className": "de.shyim.shopware6.index.FeatureFlagIndex",
+            "id": "de.shyim.shopware6.core.feature_flag",
+            "indexVersion": 2,
+            "externalizerSha256": "8c19e4f99aadf1fca6a2b316a6c3eb21865a8a470bcb0ea249750c61786d551b",
+            "fixtures": ["index/FeatureFlagIndex/packages/feature.yaml"],
+            "compatibilityNote": ""
+        },
+        {
+            "className": "de.shyim.shopware6.index.FrontendSnippetIndex",
+            "id": "de.shyim.shopware6.frontend.snippet",
+            "indexVersion": 4,
+            "externalizerSha256": "a19b03a442c7022a67856783326abf26d3b3cbe33438f6a86ab551259717715b",
+            "fixtures": ["index/FrontendSnippetIndex/Resources/snippet/de-DE.json"],
+            "compatibilityNote": ""
+        },
+        {
+            "className": "de.shyim.shopware6.index.ScriptHookFacadeIndex",
+            "id": "de.shyim.shopware6.script.hook_facade",
+            "indexVersion": 2,
+            "externalizerSha256": "5ff5b0a4d0e8f88f2eb485c1f181edac7624d218ecf94c46ffea7bb4d7c75cce",
+            "fixtures": ["index/ScriptHookFacadeIndex/src/ContractFacade.php"],
+            "compatibilityNote": ""
+        },
+        {
+            "className": "de.shyim.shopware6.index.ScriptHookIndex",
+            "id": "de.shyim.shopware6.script.hook",
+            "indexVersion": 3,
+            "externalizerSha256": "9f995b7996be077fbafe25c4213c7116a4a3546f02fcd28005b441095964a73c",
+            "fixtures": ["index/ScriptHookIndex/src/ContractHook.php"],
+            "compatibilityNote": ""
+        },
+        {
+            "className": "de.shyim.shopware6.index.ShopwareAppIndex",
+            "id": "de.shyim.shopware6.backend.shopware-app",
+            "indexVersion": 4,
+            "externalizerSha256": "4c3364663aa3582c96f72bcecd899d3eaa32781e1b83cdfb8e7cabfad3f6e4f9",
+            "fixtures": ["index/ShopwareAppIndex/custom/apps/ContractApp/manifest.xml"],
+            "compatibilityNote": ""
+        },
+        {
+            "className": "de.shyim.shopware6.index.ShopwareBundleIndex",
+            "id": "de.shyim.shopware6.backend.shopware-bundles",
+            "indexVersion": 7,
+            "externalizerSha256": "75e2aeb3fff8c85d33aad31bf6f86435c439b619fb64814d730eddfcea672827",
+            "fixtures": ["index/ShopwareBundleIndex/custom/plugins/SwagContract/composer.json", "index/ShopwareBundleIndex/custom/plugins/SwagContract/src/SwagContract.php"],
+            "compatibilityNote": ""
+        },
+        {
+            "className": "de.shyim.shopware6.index.ShopwareTemplateExtendsIndex",
+            "id": "de.shyim.shopware6.frontend.twig_template_extends",
+            "indexVersion": 1,
+            "externalizerSha256": "52388b81029aaebef3b4146b4d54d803c3ae15bde59d1ad6fdabc599d821041e",
+            "fixtures": ["index/ShopwareTemplateExtendsIndex/Resources/views/storefront/contract/extends-reverse.html.twig"],
+            "compatibilityNote": ""
+        },
+        {
+            "className": "de.shyim.shopware6.index.ShopwareTemplateIndex",
+            "id": "de.shyim.shopware6.frontend.twig_templates",
+            "indexVersion": 1,
+            "externalizerSha256": "45e4e00c83ead24849e174cc68862e75d67207131e444a7bdd70133bc2b9a40a",
+            "fixtures": ["index/ShopwareTemplateIndex/Resources/views/storefront/contract/extends.html.twig"],
+            "compatibilityNote": ""
+        },
+        {
+            "className": "de.shyim.shopware6.index.SystemConfigIndex",
+            "id": "de.shyim.shopware6.backend.system-config",
+            "indexVersion": 5,
+            "externalizerSha256": "85345aacd3d38baf7b4ead8414ef87ff67cafed37ca6dd2b3818759602ca4489",
+            "fixtures": ["index/SystemConfigIndexTest/composer.json", "index/SystemConfigIndexTest/src/Resources/config/common.xml"],
+            "compatibilityNote": ""
+        },
+        {
+            "className": "de.shyim.shopware6.index.ThemeConfigIndex",
+            "id": "de.shyim.shopware6.frontend.theme_config",
+            "indexVersion": 2,
+            "externalizerSha256": "69923207d670d9d9e9f349bad728160a66799240f3855ac9291416797ccb252d",
+            "fixtures": ["index/ThemeConfigIndex/Resources/theme.json"],
+            "compatibilityNote": ""
+        },
+        {
+            "className": "de.shyim.shopware6.index.TwigBlockDeprecationIndex",
+            "id": "de.shyim.shopware6.frontend.twig_blocks",
+            "indexVersion": 3,
+            "externalizerSha256": "d9948d46832695a707ed0aca2888e8527a504be3d49b6913f20cdd84a075b8cb",
+            "fixtures": ["index/TwigBlockDeprecationIndexTest/MyApp/Resources/views/start-page/index.html.twig"],
+            "compatibilityNote": ""
+        },
+        {
+            "className": "de.shyim.shopware6.index.TwigBlockHashIndex",
+            "id": "de.shyim.shopware6.frontend.twig_hash",
+            "indexVersion": 4,
+            "externalizerSha256": "ca43a8690d729130bc717711755c1225224dd78e77f8bcc8aed846f5037779c3",
+            "fixtures": ["index/TwigBlockHashIndex/Resources/views/storefront/contract/block.html.twig"],
+            "compatibilityNote": ""
+        }
+    ]
+}

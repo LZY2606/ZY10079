@@ -17,7 +17,14 @@ class AdminComponentOverrideIndexTest: BasePlatformTestCase() {
     }
 
     fun testIsIndexed() {
+        // getAllKeys can contain stale keys from other tests sharing the index storage,
+        // so only count keys with values in this project
         val keys = FileBasedIndex.getInstance().getAllKeys(AdminComponentOverrideIndex.key, project)
+            .filter {
+                FileBasedIndex.getInstance()
+                    .getValues(AdminComponentOverrideIndex.key, it, GlobalSearchScope.projectScope(project))
+                    .isNotEmpty()
+            }
 
         TestCase.assertEquals(1, keys.size)
 

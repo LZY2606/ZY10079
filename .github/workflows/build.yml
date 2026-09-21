@@ -107,9 +107,10 @@ jobs:
         with:
           cache-read-only: true
 
-      # Run tests
-      - name: Run Tests
-        run: ./gradlew check
+      # Run unit tests and the plugin contract verification
+      # (static index-coverage check, shuffled second-pass index tests, plugin ZIP contents)
+      - name: Run Tests & Plugin Contract Verification
+        run: ./gradlew check verifyPluginContract
 
       # Collect Tests Result of failed tests
       - name: Collect Tests Result
@@ -117,7 +118,17 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: tests-result
-          path: ${{ github.workspace }}/build/reports/tests
+          path: |
+            ${{ github.workspace }}/build/reports/tests
+            ${{ github.workspace }}/build/reports/pluginContract
+
+      # Store the stable plugin ZIP SHA manifest
+      - name: Upload Plugin Contract Report
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: plugin-contract-report
+          path: ${{ github.workspace }}/build/reports/pluginContract
 
       # Upload the Kover report to CodeCov
       - name: Upload Code Coverage Report

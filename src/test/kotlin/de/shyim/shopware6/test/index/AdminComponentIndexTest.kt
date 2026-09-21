@@ -18,7 +18,14 @@ class AdminComponentIndexTest: BasePlatformTestCase() {
     }
 
     fun testComponentsAreRegistered() {
+        // getAllKeys can contain stale keys from other tests sharing the index storage,
+        // so only count keys with values in this project
         val keys = FileBasedIndex.getInstance().getAllKeys(AdminComponentIndex.key, project)
+            .filter {
+                FileBasedIndex.getInstance()
+                    .getValues(AdminComponentIndex.key, it, GlobalSearchScope.allScope(project))
+                    .isNotEmpty()
+            }
         assertSame(2, keys.size)
 
         val button = FileBasedIndex.getInstance()
